@@ -7,7 +7,7 @@ RUN sed -i.bak -r 's/(archive|security).ubuntu.com/old-releases.ubuntu.com/g' /e
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        software-properties-common curl \
-       python-setuptools init \
+       python-setuptools init unzip \
        rsync rsyslog systemd sudo
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 #ADD etc/rsyslog.d/50-default.conf /etc/rsyslog.d/50-default.conf
