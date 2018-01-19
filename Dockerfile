@@ -6,16 +6,18 @@ RUN sed -i.bak -r 's/(archive|security).ubuntu.com/old-releases.ubuntu.com/g' /e
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       python-software-properties \
-       software-properties-common \
-       python-setuptools python-pip \
+       software-properties-common curl \
+       python-setuptools \
        rsync rsyslog systemd sudo
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 #ADD etc/rsyslog.d/50-default.conf /etc/rsyslog.d/50-default.conf
 
+# Install PIP.
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" \
+    && python get-pip.py
+
 # Install Ansible
 RUN pip install urllib3 pyOpenSSL ndg-httpsclient pyasn1 ansible cryptography
-
 
 RUN rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
